@@ -19,5 +19,5 @@ jobs:
 
       - name: Build TS plugin body
         working-directory: ./
-        run: gradlew build
+        run: bash ./gradlew build
 
