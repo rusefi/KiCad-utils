@@ -1,4 +1,4 @@
-package com.rusefi.netlist;
+package com.rusefi.pcb;
 
 import com.rusefi.pcb.nodes.PcbNode;
 import org.junit.Ignore;
