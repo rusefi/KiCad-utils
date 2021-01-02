@@ -1,6 +1,8 @@
 package com.rusefi.pcb;
 
 /**
+ * A pair of file names
+ *
  * @author Andrey Belomutskiy
  *         1/24/14
  */
