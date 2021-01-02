@@ -1,0 +1,12 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+    implementation 'junit:junit:4.12'
+}
+
+test {
+    workingDir("build/resources/test")
+}
