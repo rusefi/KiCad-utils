@@ -15,6 +15,12 @@ import java.util.List;
  * 12/8/13
  */
 public class PcbNode {
+    public static final String TOKEN_SEGMENT = "segment";
+    public static final String TOKEN_PAD = "pad";
+    public static final String TOKEN_NET = "net";
+    public static final String TOKEN_GR_LINE = "gr_line";
+    public static final String TOKEN_ZONE = "zone";
+    public static final String TOKEN_VIA = "via";
     public final String nodeName;
     public final int closingIndex;
     public final List<Object> children;
@@ -80,15 +86,15 @@ public class PcbNode {
             children.add(child);
             index += child.length();
         }
-        if ("segment".equals(nodeName)) {
+        if (TOKEN_SEGMENT.equals(nodeName)) {
             return new SegmentNode(nodeName, index + 1, children);
-        } else if ("pad".equals(nodeName)) {
+        } else if (TOKEN_PAD.equals(nodeName)) {
             return PadNode.parse(nodeName, index + 1, children);
-        } else if ("net".equals(nodeName)) {
+        } else if (TOKEN_NET.equals(nodeName)) {
             return new NetNode(nodeName, index + 1, children);
         } else if ("add_net".equals(nodeName)) {
             return new AddNetNode(nodeName, index + 1, children);
-        } else if ("gr_line".equals(nodeName)) {
+        } else if (TOKEN_GR_LINE.equals(nodeName)) {
             return new GrLineNode(nodeName, index + 1, children);
         } else if ("layer".equals(nodeName)) {
             return new LayerNode(nodeName, index + 1, children);
@@ -96,9 +102,9 @@ public class PcbNode {
             return new ModuleNode(nodeName, index + 1, children);
         } else if ("size".equals(nodeName) || "width".equals(nodeName)) {
             return new SizeNode(nodeName, index + 1, children);
-        } else if ("zone".equals(nodeName)) {
+        } else if (TOKEN_ZONE.equals(nodeName)) {
             return new ZoneNode(nodeName, index + 1, children);
-        } else if ("via".equals(nodeName)) {
+        } else if (TOKEN_VIA.equals(nodeName)) {
             return new ViaNode(nodeName, index + 1, children);
         } else if ("start".equals(nodeName) || "end".equals(nodeName) || "at".equals(nodeName)) {
             return new PointNode(nodeName, index + 1, children);

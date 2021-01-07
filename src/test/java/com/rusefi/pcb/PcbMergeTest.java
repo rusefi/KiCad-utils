@@ -6,6 +6,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static com.rusefi.pcb.nodes.PcbNode.TOKEN_NET;
+import static com.rusefi.pcb.nodes.PcbNode.TOKEN_PAD;
 import static org.junit.Assert.assertEquals;
 
 public class PcbMergeTest {
@@ -47,11 +49,11 @@ public class PcbMergeTest {
                 "\n" +
                 "   (layers F.Cu F.Mask F.Paste)\n" +
                 "\n" +
-                "   (net 7 \"CANH\")\n" +
+                "   (net 2 \"CAN_VIO\")\n" +
                 ")\n" +
                 ")\n";
         PcbNode node = PcbNode.parse(pcb1);
-        assertEquals(9, node.iterate("net").size());
+        assertEquals(9, node.iterate(TOKEN_NET).size());
 
         String pcb2 = "(kicad_pcb (version 4) (host pcbnew \"(2014-07-21 BZR 5016)-product\")\n" +
                 "\n" +
@@ -83,12 +85,12 @@ public class PcbMergeTest {
                 ")\n" +
                 ")";
         PcbNode node2 = PcbNode.parse(pcb2);
-        assertEquals(17, node2.iterate("net").size());
+        assertEquals(17, node2.iterate(TOKEN_NET).size());
 
         PcbMergeTool.mergePcb(node, node2);
 
-        assertEquals(1, node.iterate("pad").size());
-        assertEquals(9, node.iterate("net").size());
+        assertEquals(2, node.iterate(TOKEN_PAD).size());
+        assertEquals(9, node.iterate(TOKEN_NET).size());
     }
 
     @Test

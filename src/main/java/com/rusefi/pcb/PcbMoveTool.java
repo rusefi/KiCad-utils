@@ -5,6 +5,8 @@ import com.rusefi.pcb.nodes.PcbNode;
 import java.io.IOException;
 import java.util.List;
 
+import static com.rusefi.pcb.nodes.PcbNode.TOKEN_GR_LINE;
+
 /**
  * (c) Andrey Belomutskiy
  * 12/8/13
@@ -47,7 +49,7 @@ public class PcbMoveTool {
             movePts(dx, dy, dimension.find("arrow2b"));
         }
 
-        List<PcbNode> gr_lines = pcbNode.iterate("gr_line");
+        List<PcbNode> gr_lines = pcbNode.iterate(TOKEN_GR_LINE);
         System.out.println("Moving " + gr_lines.size() + " gr_lines");
         for (PcbNode gr_line : gr_lines)
             moveStartEnd(dx, dy, gr_line);
@@ -89,7 +91,7 @@ public class PcbMoveTool {
         }
 
 
-        List<PcbNode> segments = pcbNode.iterate("segment");
+        List<PcbNode> segments = pcbNode.iterate(PcbNode.TOKEN_SEGMENT);
         System.out.println("Moving " + segments.size() + " segments");
         for (PcbNode segment : segments)
             moveStartEnd(dx, dy, segment);

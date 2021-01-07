@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.rusefi.pcb.nodes.PcbNode.TOKEN_SEGMENT;
+
 /**
  * @author Andrey Belomutskiy
  *         1/21/14
@@ -52,7 +54,7 @@ public class RemoveUnneededTraces {
     private static List<ViaNode> findUnusedVias(PcbNode destNode) {
         List<ViaNode> result = new ArrayList<ViaNode>();
 
-        List<PcbNode> stuff = destNode.iterate("segment");
+        List<PcbNode> stuff = destNode.iterate(TOKEN_SEGMENT);
 //        stuff.addAll(destNode.iterate("segment"));
 
         for (PcbNode n : destNode.iterate("via")) {

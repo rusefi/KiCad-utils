@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.rusefi.pcb.nodes.PcbNode.*;
+
 /**
  * (c) Andrey Belomutskiy
  * 12/16/13.
@@ -88,7 +90,7 @@ public class PcbMergeTool {
          */
         Map<String, Integer> netIdMapping = new HashMap<>();
 
-        for (PcbNode net : source.iterate("net")) {
+        for (PcbNode net : source.iterate(TOKEN_NET)) {
             String netId = net.getChild(0);
             String netName = net.getChild(1); // todo: nicer method?
             String newName = networks.registerNetworkIfPcbSpecific(netName);
@@ -96,7 +98,7 @@ public class PcbMergeTool {
             netIdMapping.put(netId, networks.getId(newName));
         }
 
-        List<PcbNode> zones = source.iterate("zone");
+        List<PcbNode> zones = source.iterate(TOKEN_ZONE);
         log("Processing  " + zones.size() + " zone(s)");
         for (PcbNode z : zones) {
             ZoneNode zone = (ZoneNode) z;
@@ -140,7 +142,7 @@ public class PcbMergeTool {
             destNode.addChild(module);
         }
 
-        List<PcbNode> segments = source.iterate("segment");
+        List<PcbNode> segments = source.iterate(TOKEN_SEGMENT);
         log("Processing " + segments.size() + " segments");
         for (PcbNode segment : segments) {
 //            if (!segment.hasChild("net"))
@@ -148,6 +150,14 @@ public class PcbMergeTool {
             fixNetId(netIdMapping, netNameMapping, segment);
 
             destNode.addChild(segment);
+        }
+
+        List<PcbNode> pads = source.iterate(TOKEN_PAD);
+        log("Processing " + pads.size() + " pads");
+        for (PcbNode pad : pads) {
+            fixNetId(netIdMapping, netNameMapping, pad);
+
+            destNode.addChild(pad);
         }
 
         List<PcbNode> vias = source.iterate("via");

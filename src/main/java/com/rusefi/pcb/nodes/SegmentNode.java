@@ -14,7 +14,7 @@ public class SegmentNode extends PcbNode {
 
     public SegmentNode(String nodeName, int closingIndex, List<Object> children) {
         super(nodeName, closingIndex, children);
-        net = (NetNode) find("net");
+        net = (NetNode) find(TOKEN_NET);
         start = (PointNode) find("start");
         end = (PointNode) find("end");
         size = (SizeNode) find("width");

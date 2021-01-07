@@ -19,7 +19,7 @@ public class ViaNode extends PcbNode {
         super(nodeName, i, children);
         location = (PointNode) find("at");
         size = (SizeNode) find("size");
-        netId = Integer.parseInt(find("net").getChild(0));
+        netId = Integer.parseInt(find(TOKEN_NET).getChild(0));
     }
 
     @Override
