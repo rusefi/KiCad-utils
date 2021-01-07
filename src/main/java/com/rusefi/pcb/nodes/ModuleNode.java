@@ -17,7 +17,8 @@ public class ModuleNode extends PcbNode {
         pads = (List<PadNode>) o;
         at = (PointNode) find("at");
 
-        reference = iterate("fp_text").get(0).getChild(1);
+        List<PcbNode> nodes = iterate("fp_text");
+        reference = nodes.isEmpty() ? null : nodes.get(0).getChild(1);
     }
 
     public String getReference() {
