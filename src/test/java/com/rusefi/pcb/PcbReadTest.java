@@ -26,7 +26,7 @@ public class PcbReadTest {
                 ")";
         PcbNode node = PcbNode.parse(string);
         List<PcbNode> lines = node.iterate("gr_line");
-        assertEquals(0, lines.size());
+        assertEquals(1, lines.size());
     }
 
     @Test

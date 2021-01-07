@@ -126,6 +126,8 @@ public class PcbNode {
         if (result.length() == 0)
             throw new IllegalStateException("Empty token");
         log("Got token: " + result, depth);
+        if (Character.isWhitespace(result.charAt(0)))
+            throw new IllegalStateException("We do not handle whitespaces right: " + result);
         return result;
     }
 
@@ -140,7 +142,7 @@ public class PcbNode {
     }
 
     private static boolean isWhitespace(char c) {
-        return c == ' ' || c == '\r' || c == '\n';
+        return Character.isWhitespace(c);
     }
 
     public static PcbNode parse(String content) {
