@@ -19,13 +19,9 @@ public class PcbReadTest {
     @Test
     public void testParseKicad4() {
         String string = "(kicad_pcb " +
-                "(version 4) (host pcbnew \"(2014-07-21 BZR 5016)-product\")\n" +
                 "  (net_class Default \"This is the default net class.\"\n" +
                 "\t(add_net Net1)\n" +
                 "  )\n" +
-                "  \n" +
-                "(gr_line (start 17.24988 -105.76185) (end 15.64980 -105.76185) (angle 90) (layer F.CrtYd) (width 0.2))\n" +
-                "(gr_line (start 15.64980 -105.76185) (end 15.64980 -104.93783) (angle 90) (layer F.CrtYd) (width 0.2))\n" +
                 "(gr_line (start 111.90002 3.80002) (end 111.90002 -30.05001) (angle 90) (layer F.CrtYd) (width 0.2))\n" +
                 ")";
         PcbNode node = PcbNode.parse(string);
