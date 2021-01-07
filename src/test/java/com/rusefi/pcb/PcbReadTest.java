@@ -21,28 +21,8 @@ public class PcbReadTest {
         String string = "(kicad_pcb " +
                 "(version 4) (host pcbnew \"(2014-07-21 BZR 5016)-product\")\n" +
                 "\n" +
-                "  (general\n" +
-                "    (links 0)\n" +
-                "    (modules 42)\n" +
-                "    (nets 206)\n" +
-                "  )\n" +
                 "\n" +
-                "  (page A4)\n" +
-                "  (layers\n" +
-                "    (0 F.Cu signal)\n" +
                 "\n" +
-                "    (31 B.Cu signal)\n" +
-                "    (32 B.Adhes user)\n" +
-                "    (49 F.Fab user)\n" +
-                "\n" +
-                "  )\n" +
-                "\n" +
-                "  (setup\n" +
-                "    (last_trace_width 0.254)\n" +
-                "    (trace_clearance 0.127)\n" +
-                "    (zone_clearance 0.0144)\n" +
-                "    (aux_axis_origin 0 0)\n" +
-                "  )\n" +
                 "\n" +
                 "  (net 0 \"\")\n" +
                 "  (net 205 \"GNDA\")\n" +
