@@ -22,6 +22,20 @@ public class PcbMergeTest {
     }
 
     @Test
+    public void testMergeHellen() throws IOException {
+        PcbNode destNode = PcbNode.readFromFile("pcb/hellen1-72-PcbDoc.kicad_pcb");
+        assertEquals(213, destNode.children.size());
+
+        destNode.write("out_hellen.kicad_pcb");
+
+//        PcbNode pcb = PcbNode.readFromFile("pcb/adc_amp_divider.kicad_pcb");
+//        assertEquals(1036, pcb.children.size());
+//
+//        PcbMergeTool.mergePcb(destNode, pcb);
+//        assertEquals(1541, destNode.children.size());
+    }
+
+    @Test
     public void test() throws IOException {
         PcbMergeTool.main(new String[]{"pcb/test.kicad_pcb",
                 "out.kicad_pcb",
