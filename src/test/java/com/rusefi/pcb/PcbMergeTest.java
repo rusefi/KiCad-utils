@@ -1,10 +1,12 @@
 package com.rusefi.pcb;
 
+import com.rusefi.pcb.nodes.NetNode;
 import com.rusefi.pcb.nodes.PcbNode;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 import static com.rusefi.pcb.nodes.PcbNode.TOKEN_NET;
 import static com.rusefi.pcb.nodes.PcbNode.TOKEN_PAD;
@@ -89,7 +91,15 @@ public class PcbMergeTest {
 
         PcbMergeTool.mergePcb(node, node2);
 
-        assertEquals(2, node.iterate(TOKEN_PAD).size());
+        List<PcbNode> pads = node.iterate(TOKEN_PAD);
+        assertEquals(2, pads.size());
+        NetNode net1 = pads.get(0).find(TOKEN_NET);
+        NetNode net2 = pads.get(1).find(TOKEN_NET);
+
+        // todo: fix me!
+        assertEquals("2", net1.id);
+        assertEquals("2", net2.id);
+
         assertEquals(9, node.iterate(TOKEN_NET).size());
     }
 

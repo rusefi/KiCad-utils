@@ -90,7 +90,7 @@ public class PcbMergeTool {
          */
         Map<String, Integer> netIdMapping = new HashMap<>();
 
-        for (PcbNode net : source.iterate(TOKEN_NET)) {
+        for (NetNode net : source.<NetNode>iterate(TOKEN_NET)) {
             String netId = net.getChild(0);
             String netName = net.getChild(1); // todo: nicer method?
             String newName = networks.registerNetworkIfPcbSpecific(netName);
@@ -130,8 +130,8 @@ public class PcbMergeTool {
         List<PcbNode> modules = source.iterate("module");
         log("Processing  " + modules.size() + " module(s)");
         for (PcbNode module : modules) {
-            for (PcbNode pad : module.iterate("pad")) {
-                if (!pad.hasChild("net"))
+            for (PcbNode pad : module.iterate(TOKEN_PAD)) {
+                if (!pad.hasChild(TOKEN_NET))
                     continue;
                 fixNetId(netIdMapping, netNameMapping, pad);
 //                PcbNode net = pad.find("net");

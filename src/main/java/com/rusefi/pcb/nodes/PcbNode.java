@@ -209,11 +209,11 @@ public class PcbNode {
     }
 
     //    @NotNull
-    public PcbNode find(String key) {
+    public <T extends PcbNode> T find(String key) {
         List<PcbNode> r = iterate(key);
         if (r.size() != 1)
             throw new IllegalStateException("More that one " + key + " in " + nodeName);
-        return r.get(0);
+        return (T) r.get(0);
     }
 
     public List<PcbNode> nodes() {
@@ -226,11 +226,11 @@ public class PcbNode {
         return result;
     }
 
-    public List<PcbNode> iterate(String key) {
-        List<PcbNode> result = new ArrayList<PcbNode>();
+    public <T extends PcbNode> List<T> iterate(String key) {
+        List<T> result = new ArrayList<T>();
         for (PcbNode p : nodes()) {
             if (p.nodeName.equals(key))
-                result.add(p);
+                result.add((T) p);
         }
         return result;
     }
