@@ -21,16 +21,16 @@ public class ChangesModel {
     private static final String COPY = "copy";
     private static final String MERGE_NET = "merge_net";
 
-    public final Set<String> DEL_REQUESTS = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-    public final List<NameAndOffset> ADD_REQUESTS = new ArrayList<NameAndOffset>();
-    public final List<NameAndOffset> MOVE_REQUESTS = new ArrayList<NameAndOffset>();
+    public final Set<String> DEL_REQUESTS = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+    public final List<NameAndOffset> ADD_REQUESTS = new ArrayList<>();
+    public final List<NameAndOffset> MOVE_REQUESTS = new ArrayList<>();
 
-    public final List<TwoFileRequest> OPTIMIZE_REQUESTS = new ArrayList<TwoFileRequest>();
-    public final List<TwoFileRequest> COPY_REQUESTS = new ArrayList<TwoFileRequest>();
+    public final List<TwoFileRequest> OPTIMIZE_REQUESTS = new ArrayList<>();
+    public final List<TwoFileRequest> COPY_REQUESTS = new ArrayList<>();
     /**
      * Old net name > New net name
      */
-    public final Map<String, String> NET_MERGE_REQUESTS = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
+    public final Map<String, String> NET_MERGE_REQUESTS = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     public static ChangesModel getInstance() {
         return instance;

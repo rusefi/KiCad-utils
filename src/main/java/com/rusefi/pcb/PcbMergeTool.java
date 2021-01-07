@@ -78,7 +78,7 @@ public class PcbMergeTool {
         return null;
     }
 
-    private static void mergePcb(PcbNode destNode, PcbNode source) throws IOException {
+    static void mergePcb(PcbNode destNode, PcbNode source) throws IOException {
         /**
          * original local net name > new net name in combined PCB
          */
