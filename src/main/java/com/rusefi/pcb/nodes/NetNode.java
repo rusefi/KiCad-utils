@@ -1,20 +1,18 @@
 package com.rusefi.pcb.nodes;
 
-import com.rusefi.pcb.nodes.PcbNode;
-
 import java.util.List;
 
 /**
  * @author Andrey Belomutskiy
- *         1/21/14
+ * 1/21/14
  */
 public class NetNode extends PcbNode {
     public final String id;
-    final String name;
+    private String name;
     public static int GND_NET_ID;
 
-    public NetNode(String nodeName, int i, List<Object> children) {
-        super(nodeName, i, children);
+    public NetNode(int i, List<Object> children) {
+        super(TOKEN_NET, i, children);
         id = getChild(0);
         name = children.size() > 1 ? getChild(1) : null;
         if (name != null)

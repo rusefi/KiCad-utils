@@ -1,8 +1,5 @@
 package com.rusefi.pcb.nodes;
 
-import com.rusefi.pcb.nodes.LayerNode;
-import com.rusefi.pcb.nodes.PcbNode;
-
 import java.util.List;
 
 /**
@@ -14,7 +11,7 @@ public class ZoneNode extends PcbNode {
 
     public ZoneNode(String nodeName, int i, List<Object> children) {
         super(nodeName, i, children);
-        layerNode = (LayerNode) find("layer");
+        layerNode = find("layer");
     }
 
     public LayerNode getLayerNode() {

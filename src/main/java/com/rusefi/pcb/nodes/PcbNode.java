@@ -16,8 +16,8 @@ import java.util.List;
  */
 public class PcbNode {
     public static final String TOKEN_SEGMENT = "segment";
-    public static final String TOKEN_PAD = "pad";
-    public static final String TOKEN_NET = "net";
+    public static final String TOKEN_PAD = PcbNodeType.PAD.name().toLowerCase();
+    public static final String TOKEN_NET = PcbNodeType.NET.name().toLowerCase();
     public static final String TOKEN_GR_LINE = "gr_line";
     public static final String TOKEN_ZONE = "zone";
     public static final String TOKEN_VIA = "via";
@@ -91,7 +91,7 @@ public class PcbNode {
         } else if (TOKEN_PAD.equals(nodeName)) {
             return PadNode.parse(nodeName, index + 1, children);
         } else if (TOKEN_NET.equals(nodeName)) {
-            return new NetNode(nodeName, index + 1, children);
+            return new NetNode(index + 1, children);
         } else if ("add_net".equals(nodeName)) {
             return new AddNetNode(nodeName, index + 1, children);
         } else if (TOKEN_GR_LINE.equals(nodeName)) {
@@ -226,6 +226,9 @@ public class PcbNode {
         return result;
     }
 
+    /**
+     * @return children of specified type, without recursion
+     */
     public <T extends PcbNode> List<T> iterate(String key) {
         List<T> result = new ArrayList<T>();
         for (PcbNode p : nodes()) {

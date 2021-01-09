@@ -1,12 +1,11 @@
 package com.rusefi.pcb;
 
-import com.rusefi.pcb.nodes.ModuleNode;
-import com.rusefi.pcb.nodes.PcbNode;
-import com.rusefi.pcb.nodes.SegmentNode;
+import com.rusefi.pcb.nodes.*;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -40,6 +39,20 @@ public class PcbNodeTest {
                 "\r\n" +
                 " (host pcbnew \"(2013-07-07 BZR 4022)-stable\")\r\n" +
                 ")\r\n", n.pack());
+    }
+
+    @Test
+    public void testFind() {
+
+        NetNode net1 = new NetNode(-1, Collections.singletonList("1"));
+        NetNode net2 = new NetNode(-1, Collections.singletonList("2"));
+
+        LayerNode childZone = new LayerNode("z", -1, Arrays.asList("z", net2));
+
+        LayerNode parentZone = new LayerNode("parent", 2, Arrays.asList("z2", net1, childZone));
+
+        List<NetNode> nets = parentZone.iterate(PcbNode.TOKEN_NET);
+        assertEquals(1, nets.size());
     }
 
     @Test
