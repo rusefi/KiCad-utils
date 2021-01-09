@@ -95,7 +95,7 @@ public class PcbNode {
         } else if ("add_net".equals(nodeName)) {
             return new AddNetNode(nodeName, index + 1, children);
         } else if (TOKEN_GR_LINE.equals(nodeName)) {
-            return new GrLineNode(nodeName, index + 1, children);
+            return new GrLineNode(index + 1, children);
         } else if ("layer".equals(nodeName)) {
             return new LayerNode(nodeName, index + 1, children);
         } else if ("module".equals(nodeName)) {
@@ -212,12 +212,12 @@ public class PcbNode {
     public <T extends PcbNode> T find(String key) {
         List<PcbNode> r = iterate(key);
         if (r.size() != 1)
-            throw new IllegalStateException("More that one " + key + " in " + nodeName);
+            throw new IllegalStateException("Exactly one " + key + " expected in " + nodeName);
         return (T) r.get(0);
     }
 
     public List<PcbNode> nodes() {
-        List<PcbNode> result = new ArrayList<PcbNode>();
+        List<PcbNode> result = new ArrayList<>();
         for (Object child : children) {
             if (child instanceof String)
                 continue;
