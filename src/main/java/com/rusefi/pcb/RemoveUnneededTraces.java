@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import static com.rusefi.pcb.nodes.PcbNode.TOKEN_SEGMENT;
+import static com.rusefi.pcb.nodes.PcbNode.TOKEN_VIA;
 
 /**
  * @author Andrey Belomutskiy
@@ -57,7 +58,7 @@ public class RemoveUnneededTraces {
         List<PcbNode> stuff = destNode.iterate(TOKEN_SEGMENT);
 //        stuff.addAll(destNode.iterate("segment"));
 
-        for (PcbNode n : destNode.iterate("via")) {
+        for (PcbNode n : destNode.iterate(TOKEN_VIA)) {
             ViaNode via = (ViaNode) n;
 
             int count = 0;
@@ -78,8 +79,8 @@ public class RemoveUnneededTraces {
     }
 
     private static boolean removeUnusedSegments(PcbNode destNode) {
-        List<PcbNode> stuff = new ArrayList<PcbNode>(destNode.iterate("module"));
-        stuff.addAll(destNode.iterate("via"));
+        List<PcbNode> stuff = new ArrayList<PcbNode>(destNode.iterate(PcbMergeTool.TOKEN_MODULE));
+        stuff.addAll(destNode.iterate(TOKEN_VIA));
 
 
         Object o = destNode.iterate("segment");

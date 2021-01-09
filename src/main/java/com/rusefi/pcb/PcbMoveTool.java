@@ -5,7 +5,9 @@ import com.rusefi.pcb.nodes.PcbNode;
 import java.io.IOException;
 import java.util.List;
 
+import static com.rusefi.pcb.PcbMergeTool.*;
 import static com.rusefi.pcb.nodes.PcbNode.TOKEN_GR_LINE;
+import static com.rusefi.pcb.nodes.PcbNode.TOKEN_VIA;
 
 /**
  * (c) Andrey Belomutskiy
@@ -54,7 +56,7 @@ public class PcbMoveTool {
         for (PcbNode gr_line : gr_lines)
             moveStartEnd(dx, dy, gr_line);
 
-        List<PcbNode> gr_arcs = pcbNode.iterate("gr_arc");
+        List<PcbNode> gr_arcs = pcbNode.iterate(TOKEN_GR_ARC);
         System.out.println("Moving " + gr_arcs.size() + " gr_arcs");
         for (PcbNode gr_arc : gr_arcs) {
             PcbNode start = gr_arc.find("start");
@@ -74,12 +76,12 @@ public class PcbMoveTool {
             moveCoordinatesInFirstChildren(dx, dy, end);
         }
 
-        List<PcbNode> gr_texts = pcbNode.iterate("gr_text");
+        List<PcbNode> gr_texts = pcbNode.iterate(TOKEN_GR_TEXT);
         System.out.println("Moving " + gr_texts.size() + " gr_texts");
         for (PcbNode gr_text : gr_texts)
             moveAt(dx, dy, gr_text);
 
-        List<PcbNode> zones = pcbNode.iterate("zone");
+        List<PcbNode> zones = pcbNode.iterate(PcbNode.TOKEN_ZONE);
         System.out.println("Moving " + zones.size() + " zones");
         for (PcbNode zone : zones) {
             List<PcbNode> filledPolygons = zone.iterate("filled_polygon");
@@ -96,13 +98,13 @@ public class PcbMoveTool {
         for (PcbNode segment : segments)
             moveStartEnd(dx, dy, segment);
 
-        List<PcbNode> vias = pcbNode.iterate("via");
+        List<PcbNode> vias = pcbNode.iterate(TOKEN_VIA);
         System.out.println("Moving " + vias.size() + " vias");
         for (PcbNode via : vias)
             moveAt(dx, dy, via);
 
 
-        List<PcbNode> modules = pcbNode.iterate("module");
+        List<PcbNode> modules = pcbNode.iterate(TOKEN_MODULE);
         System.out.println("Moving " + modules.size() + " modules");
         for (PcbNode module : modules)
             moveAt(dx, dy, module);

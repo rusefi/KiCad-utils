@@ -14,6 +14,10 @@ import static com.rusefi.pcb.nodes.PcbNode.*;
  * 12/16/13.
  */
 public class PcbMergeTool {
+    public static final String TOKEN_GR_ARC = "gr_arc";
+    public static final String TOKEN_GR_LINE = "gr_line";
+    public static final String TOKEN_GR_TEXT = "gr_text";
+    public static final String TOKEN_MODULE = "module";
     private static Networks networks = new Networks();
 
     public static void main(String[] args) throws IOException {
@@ -38,7 +42,7 @@ public class PcbMergeTool {
         PcbNode destNode = PcbNode.readFromFile(sourcePcb);
 
 
-        for (PcbNode net : destNode.iterate("net")) {
+        for (PcbNode net : destNode.iterate(TOKEN_NET)) {
             String netName = net.getChild(1); // todo: nicer method?
             if (!Networks.isLocalNetwork(netName))
                 networks.registerNetworkIfPcbSpecific(netName);
@@ -106,13 +110,13 @@ public class PcbMergeTool {
                 destNode.addChild(zone);
         }
 
-        List<PcbNode> arcs = source.iterate("gr_arc");
+        List<PcbNode> arcs = source.iterate(TOKEN_GR_ARC);
         log("Processing  " + arcs.size() + " arc(s)");
         for (PcbNode arc : arcs)
             destNode.addChild(arc);
 
 
-        List<PcbNode> lines = source.iterate("gr_line");
+        List<PcbNode> lines = source.iterate(TOKEN_GR_LINE);
         log("Processing  " + lines.size() + " line(s)");
         for (PcbNode l : lines) {
             GrLineNode line = (GrLineNode) l;
@@ -121,13 +125,13 @@ public class PcbMergeTool {
         }
 
 
-        List<PcbNode> labels = source.iterate("gr_text");
+        List<PcbNode> labels = source.iterate(TOKEN_GR_TEXT);
         log("Processing  " + labels.size() + " label(s)");
         for (PcbNode label : labels) {
             destNode.addChild(label);
         }
 
-        List<PcbNode> modules = source.iterate("module");
+        List<PcbNode> modules = source.iterate(TOKEN_MODULE);
         log("Processing  " + modules.size() + " module(s)");
         for (PcbNode module : modules) {
             for (PcbNode pad : module.iterate(TOKEN_PAD)) {
@@ -145,7 +149,7 @@ public class PcbMergeTool {
         List<PcbNode> segments = source.iterate(TOKEN_SEGMENT);
         log("Processing " + segments.size() + " segments");
         for (PcbNode segment : segments) {
-//            if (!segment.hasChild("net"))
+//            if (!segment.hasChild(TOKEN_NET))
 //                continue;
             fixNetId(netIdMapping, netNameMapping, segment);
 
@@ -160,7 +164,7 @@ public class PcbMergeTool {
             destNode.addChild(pad);
         }
 
-        List<PcbNode> vias = source.iterate("via");
+        List<PcbNode> vias = source.iterate(TOKEN_VIA);
         log("Processing " + vias.size() + " vias");
         for (PcbNode via : vias) {
             fixNetId(netIdMapping, netNameMapping, via);
@@ -193,7 +197,7 @@ public class PcbMergeTool {
     }
 
     private static void fixNetId(Map<String, Integer> netIdMapping, Map<String, String> netNameMapping, PcbNode node) {
-        NetNode net = (NetNode) node.find("net");
+        NetNode net = node.find(TOKEN_NET);
         String originalId = net.id;
         Integer currentNetId = netIdMapping.get(originalId);
         String globalName = networks.nameById.get(currentNetId);
