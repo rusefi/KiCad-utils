@@ -21,7 +21,7 @@ public class PcbMergeTest {
         PcbNode pcb = PcbNode.readFromFile("pcb/adc_amp_divider.kicad_pcb");
         assertEquals(1036, pcb.children.size());
 
-        PcbMergeTool.mergePcb(destNode, pcb);
+        PcbMergeTool.mergePcb(destNode, pcb, new Networks());
         assertEquals(1541, destNode.children.size());
     }
 
@@ -89,7 +89,7 @@ public class PcbMergeTest {
         PcbNode node2 = PcbNode.parse(pcb2);
         assertEquals(17, node2.iterate(TOKEN_NET).size());
 
-        PcbMergeTool.mergePcb(node, node2);
+        PcbMergeTool.mergePcb(node, node2, new Networks());
 
         List<PcbNode> pads = node.iterate(TOKEN_PAD);
         assertEquals(2, pads.size());
@@ -113,7 +113,7 @@ public class PcbMergeTest {
         PcbNode pcb = PcbNode.readFromFile("pcb/adc_amp_divider.kicad_pcb");
         assertEquals(1036, pcb.children.size());
 
-        PcbMergeTool.mergePcb(destNode, pcb);
+        PcbMergeTool.mergePcb(destNode, pcb, new Networks());
         assertEquals(5758, destNode.children.size());
     }
 

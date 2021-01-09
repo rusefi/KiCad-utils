@@ -10,14 +10,14 @@ public class NetworksTest {
 
     @Test(expected = NullPointerException.class)
     public void testNonExistent() {
-        PcbMergeTool.Networks n = new PcbMergeTool.Networks();
+        Networks n = new Networks();
 
         n.getId(GND);
     }
 
     @Test
     public void testRegister() {
-        PcbMergeTool.Networks n = new PcbMergeTool.Networks();
+        Networks n = new Networks();
 
         n.registerNetworkIfPcbSpecific(GND);
         assertEquals(0, n.getId(GND));
@@ -28,7 +28,7 @@ public class NetworksTest {
 
     @Test
     public void testLocalNetwork() {
-        PcbMergeTool.Networks n = new PcbMergeTool.Networks();
+        Networks n = new Networks();
         n.registerNetworkIfPcbSpecific(GND);
 
         String newName = n.registerNetworkIfPcbSpecific("N-00239");
