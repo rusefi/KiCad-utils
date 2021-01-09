@@ -1,7 +1,5 @@
 package com.rusefi.pcb.nodes;
 
-import com.rusefi.pcb.nodes.PcbNode;
-
 import java.util.List;
 
 /**

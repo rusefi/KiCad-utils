@@ -84,7 +84,7 @@ public class PcbMergeTool {
         return null;
     }
 
-    static void mergePcb(PcbNode destNode, PcbNode source) throws IOException {
+    static void mergePcb(PcbNode destNode, PcbNode source) {
         /**
          * original local net name > new net name in combined PCB
          */
@@ -219,13 +219,17 @@ public class PcbMergeTool {
             net.setString(1, globalName);
     }
 
-    private static class Networks {
+    public static class Networks {
         /**
          * Net name > Net Id
          */
-        private Map<String, Integer> networks = new HashMap<>();
-        private Map<Integer, String> nameById = new HashMap<>();
+        private final Map<String, Integer> networks = new HashMap<>();
+        private final Map<Integer, String> nameById = new HashMap<>();
 
+        /**
+         * @param name current name
+         * @return new name for local network
+         */
         public String registerNetworkIfPcbSpecific(String name) {
             if (isLocalNetwork(name)) {
                 String newName = "F-0000" + networks.size();
