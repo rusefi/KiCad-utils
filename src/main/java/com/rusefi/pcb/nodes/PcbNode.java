@@ -21,12 +21,12 @@ public class PcbNode {
     public static final String TOKEN_GR_LINE = "gr_line";
     public static final String TOKEN_ZONE = "zone";
     public static final String TOKEN_VIA = "via";
-    public final String nodeName;
+    public final String nodeType;
     public final int closingIndex;
     public final List<Object> children;
 
-    public PcbNode(String nodeName, int closingIndex, List<Object> children) {
-        this.nodeName = nodeName;
+    public PcbNode(String nodeType, int closingIndex, List<Object> children) {
+        this.nodeType = nodeType;
         this.closingIndex = closingIndex;
         this.children = children;
     }
@@ -53,7 +53,7 @@ public class PcbNode {
     @Override
     public String toString() {
         return "PcbNode{" +
-                nodeName +
+                nodeType +
                 ", children=" + children.size() +
                 '}';
     }
@@ -165,7 +165,7 @@ public class PcbNode {
     }
 
     private void pack(StringBuilder sb, String prefix) {
-        sb.append(prefix).append("(").append(nodeName);
+        sb.append(prefix).append("(").append(nodeType);
 
         for (Object child : children) {
             if (child instanceof String) {
@@ -216,7 +216,7 @@ public class PcbNode {
     public <T extends PcbNode> T find(String key) {
         List<PcbNode> r = iterate(key);
         if (r.size() != 1)
-            throw new IllegalStateException("Exactly one " + key + " expected in " + nodeName);
+            throw new IllegalStateException("Exactly one '" + key + "' expected in " + nodeType);
         return (T) r.get(0);
     }
 
@@ -237,7 +237,7 @@ public class PcbNode {
     public <T extends PcbNode> List<T> iterate(String key) {
         List<T> result = new ArrayList<>();
         for (PcbNode p : nodes()) {
-            if (p.nodeName.equals(key))
+            if (p.nodeType.equals(key))
                 result.add((T) p);
         }
         return result;
@@ -247,7 +247,7 @@ public class PcbNode {
     public <T extends PcbNode> List<T> iterateRecursive(String key) {
         List<T> result = new ArrayList<>();
         for (PcbNode p : nodes()) {
-            if (p.nodeName.equals(key)) {
+            if (p.nodeType.equals(key)) {
                 result.add((T) p);
             } else {
                 result.addAll(p.iterateRecursive(key));

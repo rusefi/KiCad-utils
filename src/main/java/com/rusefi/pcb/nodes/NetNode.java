@@ -15,6 +15,9 @@ public class NetNode extends PcbNode {
         super(TOKEN_NET, i, children);
         id = Integer.parseInt(getChild(0));
         name = children.size() > 1 ? getChild(1) : null;
+// todo: better handling of the whole 'with id no name' drama
+        //        if (name == null && id != 1)
+//            throw new IllegalArgumentException("Only net '1' has no name: " + id);
         if (name != null)
             System.out.println("NetNode(" + name + " network: " + id + ")");
 

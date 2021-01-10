@@ -57,7 +57,9 @@ public class PcbMergeTest {
                 "  (net 0 \"\")\n" +
                 "  (net 1 \"Net1\")\n" +
                 "  (net 2 \"EXT_SPI_SCK\")\n" +
-                "   (pad \"S2\" smd oval\n" +
+                " (module \"C0603\" (layer F.Cu) (tedit 4289BEAB) (tstamp 539EEDBF)\n" +
+                "    (at 16.45 -105.35)\n" +
+        "   (pad \"S2\" smd oval\n" +
                 "   (at 2.2 2.2)\n" +
                 "\n" +
                 "   (size 0.25 0.5)\n" +
@@ -66,21 +68,25 @@ public class PcbMergeTest {
                 "\n" +
                 "   (net 2 \"EXT_SPI_SCK\")\n" +
                 ")\n" +
+                ")\n" +
                 ")";
         PcbNode node2 = PcbNode.parse(pcb2);
         assertEquals(3, node2.iterate(TOKEN_NET).size());
 
         PcbMergeTool.mergePcb(node, node2, new Networks());
 
-        List<PcbNode> pads = node.iterate(TOKEN_PAD);
+        List<PcbNode> pads = node.iterateRecursive(TOKEN_PAD);
         assertEquals(2, pads.size());
         NetNode net1 = pads.get(0).find(TOKEN_NET);
         NetNode net2 = pads.get(1).find(TOKEN_NET);
 
         assertEquals("2", net1.getId());
-        assertEquals("3", net2.getId());
+        assertEquals("4", net2.getId());
+
+        assertEquals("\"CAN_VIO\"", net1.getName());
 
         assertEquals(4, node.iterate(TOKEN_NET).size());
+        assertEquals(6, node.iterateRecursive(TOKEN_NET).size());
     }
 
     @Test

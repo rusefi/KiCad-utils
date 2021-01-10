@@ -40,7 +40,7 @@ public class Networks {
     }
 
     public static boolean isLocalNetwork(String name) {
-        return name.startsWith("N-00");
+        return name != null && name.startsWith("N-00");
     }
 
     private void registerNet(String name) {

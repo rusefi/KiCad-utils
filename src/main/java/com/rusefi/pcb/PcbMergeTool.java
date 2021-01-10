@@ -83,6 +83,7 @@ public class PcbMergeTool {
     }
 
     static void mergePcb(PcbNode destNode, PcbNode source, Networks networks) {
+        networks.registerAdditionalBoard(destNode);
 
         Networks.BoardState state = networks.registerAdditionalBoard(source);
 
@@ -183,10 +184,10 @@ public class PcbMergeTool {
     private static void fixNetId(Networks networks, PcbNode node, Networks.BoardState state) {
         NetNode net = node.find(TOKEN_NET);
         String globalName;
-        if (state.netNameInLocalToNetNameInCombined.containsKey(net.nodeName)) {
-            globalName = state.netNameInLocalToNetNameInCombined.get(net.nodeName);
+        if (state.netNameInLocalToNetNameInCombined.containsKey(net.getName())) {
+            globalName = state.netNameInLocalToNetNameInCombined.get(net.getName());
         } else {
-            globalName = networks.registerNetworkIfPcbSpecific(net.nodeName);
+            globalName = networks.registerNetworkIfPcbSpecific(net.getName());
         }
 
 
@@ -196,9 +197,11 @@ public class PcbMergeTool {
             globalName = newName;
             net.setName(newName);
         }
-        net.setId(networks.getId(globalName));
-        if (net.getName() != null)
+// todo: better handling of the whole 'with id no name' drama
+        if (net.getName() != null) {
+            net.setId(networks.getId(globalName));
             net.setName(globalName);
+        }
     }
 
     public static void log(String s) {

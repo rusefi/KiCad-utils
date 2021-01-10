@@ -17,7 +17,7 @@ public class PcbNodeTest {
     @Test
     public void testParser() {
         PcbNode n = PcbNode.parse("(version 3\r\n)");
-        assertEquals("version", n.nodeName);
+        assertEquals("version", n.nodeType);
         assertEquals(1, n.getChildren().size());
 
         assertEquals("(version 3)\r\n", n.pack());
