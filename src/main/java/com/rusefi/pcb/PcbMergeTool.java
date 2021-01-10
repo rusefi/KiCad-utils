@@ -3,9 +3,7 @@ package com.rusefi.pcb;
 import com.rusefi.pcb.nodes.*;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.rusefi.pcb.nodes.PcbNode.*;
 
@@ -85,17 +83,8 @@ public class PcbMergeTool {
     }
 
     static void mergePcb(PcbNode destNode, PcbNode source, Networks networks) {
-        /**
-         * original local net ID (as string) > new net ID
-         */
-        Map<String, Integer> netIdMapping = new HashMap<>();
 
-        for (NetNode net : source.<NetNode>iterate(TOKEN_NET)) {
-            String netId = net.getChild(0);
-            String netName = net.getChild(1); // todo: nicer method?
-            String newName = networks.registerNetworkIfPcbSpecific(netName);
-            netIdMapping.put(netId, networks.getId(newName));
-        }
+        Networks.BoardState state = networks.registerAdditionalBoard(source);
 
         List<PcbNode> zones = source.iterate(TOKEN_ZONE);
         log("Processing  " + zones.size() + " zone(s)");
@@ -132,7 +121,7 @@ public class PcbMergeTool {
             for (PcbNode pad : module.iterate(TOKEN_PAD)) {
                 if (!pad.hasChild(TOKEN_NET))
                     continue;
-                fixNetId(networks, netIdMapping, pad);
+                fixNetId(networks, pad, state);
 //                PcbNode net = pad.find("net");
 //                String localName = netNameMapping.get(net.getChild(1));
 //                net.setString(1, localName);
@@ -146,7 +135,7 @@ public class PcbMergeTool {
         for (PcbNode segment : segments) {
 //            if (!segment.hasChild(TOKEN_NET))
 //                continue;
-            fixNetId(networks, netIdMapping, segment);
+            fixNetId(networks, segment, state);
 
             destNode.addChild(segment);
         }
@@ -154,7 +143,7 @@ public class PcbMergeTool {
         List<PcbNode> pads = source.iterate(TOKEN_PAD);
         log("Processing " + pads.size() + " pads");
         for (PcbNode pad : pads) {
-            fixNetId(networks, netIdMapping, pad);
+            fixNetId(networks, pad, state);
 
             destNode.addChild(pad);
         }
@@ -162,7 +151,7 @@ public class PcbMergeTool {
         List<PcbNode> vias = source.iterate(TOKEN_VIA);
         log("Processing " + vias.size() + " vias");
         for (PcbNode via : vias) {
-            fixNetId(networks, netIdMapping, via);
+            fixNetId(networks, via, state);
 
             destNode.addChild(via);
         }
@@ -191,22 +180,25 @@ public class PcbMergeTool {
         return false;
     }
 
-    private static void fixNetId(Networks networks, Map<String, Integer> netIdMapping, PcbNode node) {
+    private static void fixNetId(Networks networks, PcbNode node, Networks.BoardState state) {
         NetNode net = node.find(TOKEN_NET);
-        String originalId = net.id;
-        Integer currentNetId = netIdMapping.get(originalId);
-        String globalName = networks.getNameById(currentNetId);
+        String globalName;
+        if (state.netNameInLocalToNetNameInCombined.containsKey(net.nodeName)) {
+            globalName = state.netNameInLocalToNetNameInCombined.get(net.nodeName);
+        } else {
+            globalName = networks.registerNetworkIfPcbSpecific(net.nodeName);
+        }
+
 
         if (ChangesModel.getInstance().NET_MERGE_REQUESTS.containsKey(globalName)) {
             String newName = ChangesModel.getInstance().NET_MERGE_REQUESTS.get(globalName);
-            log("Will merge " + globalName + " into " + newName + ". ID was " + currentNetId);
-            currentNetId = networks.getId(newName);
-            log("New ID: " + currentNetId);
+            log("Will merge " + globalName + " into " + newName);
             globalName = newName;
+            net.setName(newName);
         }
-        net.setInt(0, currentNetId);
+        net.setInt(0, networks.getId(globalName));
         if (net.getName() != null)
-            net.setString(1, globalName);
+            net.setName(globalName);
     }
 
     public static void log(String s) {

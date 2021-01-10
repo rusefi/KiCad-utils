@@ -32,4 +32,9 @@ public class NetNode extends PcbNode {
                 "id='" + id + '\'' +
                 '}';
     }
+
+    public void setName(String newName) {
+        this.name = newName;
+        setString(1, newName);
+    }
 }
