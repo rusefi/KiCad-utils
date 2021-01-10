@@ -196,7 +196,7 @@ public class PcbMergeTool {
             globalName = newName;
             net.setName(newName);
         }
-        net.setInt(0, networks.getId(globalName));
+        net.setId(networks.getId(globalName));
         if (net.getName() != null)
             net.setName(globalName);
     }

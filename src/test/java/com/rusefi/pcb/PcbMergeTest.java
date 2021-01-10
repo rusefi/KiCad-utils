@@ -77,9 +77,8 @@ public class PcbMergeTest {
         NetNode net1 = pads.get(0).find(TOKEN_NET);
         NetNode net2 = pads.get(1).find(TOKEN_NET);
 
-        // todo: fix me!
-        assertEquals("2", net1.id);
-        assertEquals("2", net2.id);
+        assertEquals("2", net1.getId());
+        assertEquals("3", net2.getId());
 
         assertEquals(4, node.iterate(TOKEN_NET).size());
     }

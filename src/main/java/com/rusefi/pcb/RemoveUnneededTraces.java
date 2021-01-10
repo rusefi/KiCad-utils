@@ -16,7 +16,7 @@ import static com.rusefi.pcb.nodes.PcbNode.TOKEN_VIA;
  *         1/21/14
  */
 public class RemoveUnneededTraces {
-    private final static Set<String> alreadyRemoved = new HashSet<String>();
+    private final static Set<String> alreadyRemoved = new HashSet<>();
 
     public static void main(String[] args) throws IOException {
         if (args.length != 2) {
@@ -53,7 +53,7 @@ public class RemoveUnneededTraces {
     }
 
     private static List<ViaNode> findUnusedVias(PcbNode destNode) {
-        List<ViaNode> result = new ArrayList<ViaNode>();
+        List<ViaNode> result = new ArrayList<>();
 
         List<PcbNode> stuff = destNode.iterate(TOKEN_SEGMENT);
 //        stuff.addAll(destNode.iterate("segment"));
@@ -79,12 +79,10 @@ public class RemoveUnneededTraces {
     }
 
     private static boolean removeUnusedSegments(PcbNode destNode) {
-        List<PcbNode> stuff = new ArrayList<PcbNode>(destNode.iterate(PcbMergeTool.TOKEN_MODULE));
+        List<PcbNode> stuff = new ArrayList<>(destNode.iterate(PcbMergeTool.TOKEN_MODULE));
         stuff.addAll(destNode.iterate(TOKEN_VIA));
 
-
-        Object o = destNode.iterate("segment");
-        List<SegmentNode> segments = (List<SegmentNode>) o;
+        List<SegmentNode> segments = destNode.iterate("segment");
         System.out.println(segments.size() + " segment(s)");
 
         List<SegmentNode> unused = findUnusedSegments(segments, stuff);
@@ -92,7 +90,7 @@ public class RemoveUnneededTraces {
             boolean removed = destNode.removeChild(segment);
             if (!removed)
                 throw new IllegalStateException();
-            String netName = segment.net.id;
+            String netName = segment.net.getId();
             if (!alreadyRemoved.contains(netName)) {
                 alreadyRemoved.add(netName);
                 System.out.println("Unused segment in network " + netName + ": " + segment);
@@ -102,7 +100,7 @@ public class RemoveUnneededTraces {
     }
 
     private static List<SegmentNode> findUnusedSegments(List<SegmentNode> segments, List<PcbNode> modules) {
-        List<SegmentNode> unused = new ArrayList<SegmentNode>();
+        List<SegmentNode> unused = new ArrayList<>();
         for (SegmentNode segment : segments) {
             if (isUnused(segments, segment, modules)) {
 //                System.out.println("Unused on " + segment.net.id + ": " + segment);

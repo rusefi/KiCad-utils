@@ -7,19 +7,19 @@ import java.util.List;
  * 1/21/14
  */
 public class NetNode extends PcbNode {
-    public final String id;
+    private int id;
     private String name;
     public static int GND_NET_ID;
 
     public NetNode(int i, List<Object> children) {
         super(TOKEN_NET, i, children);
-        id = getChild(0);
+        id = Integer.parseInt(getChild(0));
         name = children.size() > 1 ? getChild(1) : null;
         if (name != null)
             System.out.println("NetNode(" + name + " network: " + id + ")");
 
         if ("GND".equalsIgnoreCase(name))
-            GND_NET_ID = Integer.parseInt(id);
+            GND_NET_ID = id;
     }
 
     public String getName() {
@@ -33,8 +33,17 @@ public class NetNode extends PcbNode {
                 '}';
     }
 
+    public void setId(int id) {
+        this.id = id;
+        setInt(0, id);
+    }
+
     public void setName(String newName) {
         this.name = newName;
         setString(1, newName);
+    }
+
+    public String getId() {
+        return "" + id;
     }
 }
