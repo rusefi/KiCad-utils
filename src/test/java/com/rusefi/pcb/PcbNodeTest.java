@@ -42,7 +42,7 @@ public class PcbNodeTest {
     }
 
     @Test
-    public void testFind() {
+    public void testIterate() {
 
         NetNode net1 = new NetNode(-1, Collections.singletonList("1"));
         NetNode net2 = new NetNode(-1, Collections.singletonList("2"));
@@ -50,6 +50,9 @@ public class PcbNodeTest {
         LayerNode childZone = new LayerNode("z", -1, Arrays.asList("z", net2));
 
         LayerNode parentZone = new LayerNode("parent", 2, Arrays.asList("z2", net1, childZone));
+
+        List<NetNode> netsRecursive = parentZone.iterateRecursive(PcbNode.TOKEN_NET);
+        assertEquals(2, netsRecursive.size());
 
         List<NetNode> nets = parentZone.iterate(PcbNode.TOKEN_NET);
         assertEquals(1, nets.size());
@@ -200,7 +203,7 @@ public class PcbNodeTest {
         SegmentNode s0 = (SegmentNode) PcbNode.parse("(segment (start 216.662 161.544) (end 217.678 161.544) (width 0.254) (layer B.Cu) (net 7) (tstamp 52BC5D95))");
         SegmentNode s2 = (SegmentNode) PcbNode.parse("(segment (start 219.075 162.941) (end 219.075 163.322) (width 0.254) (layer F.Cu) (net 7) (tstamp 52BC5D9B))");
 
-        assertFalse(RemoveUnneededTraces.isUnused(Arrays.asList(s0, s2), s1, Collections.<PcbNode>emptyList()));
+        assertFalse(RemoveUnneededTraces.isUnused(Arrays.asList(s0, s2), s1, Collections.emptyList()));
     }
 
 

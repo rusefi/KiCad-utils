@@ -66,7 +66,7 @@ public class PcbNode {
         String nodeName = readToken(s, index, depth);
         index += nodeName.length();
 
-        List<Object> children = new ArrayList<Object>();
+        List<Object> children = new ArrayList<>();
         while (true) {
             while (isWhitespace(s.charAt(index)))
                 index++;
@@ -113,6 +113,7 @@ public class PcbNode {
         return new PcbNode(nodeName, index + 1, children);
     }
 
+    @SuppressWarnings("StringConcatenationInLoop")
     private static String readToken(String s, int index, int depth) {
         log("Reading token from " + index, depth);
         if (s.charAt(index) == '"') {
@@ -137,12 +138,14 @@ public class PcbNode {
         return result;
     }
 
+    @SuppressWarnings("unused")
     private static void log(String s, int depth) {
 //        for (int i = 0; i < depth; i++)
 //            System.out.print(' ');
 //        System.out.println(s);
     }
 
+    @SuppressWarnings("unused")
     private static void log(String s) {
         log(s, 0);
     }
@@ -209,6 +212,7 @@ public class PcbNode {
     }
 
     //    @NotNull
+    @SuppressWarnings("unchecked")
     public <T extends PcbNode> T find(String key) {
         List<PcbNode> r = iterate(key);
         if (r.size() != 1)
@@ -229,11 +233,25 @@ public class PcbNode {
     /**
      * @return children of specified type, without recursion
      */
+    @SuppressWarnings("unchecked")
     public <T extends PcbNode> List<T> iterate(String key) {
-        List<T> result = new ArrayList<T>();
+        List<T> result = new ArrayList<>();
         for (PcbNode p : nodes()) {
             if (p.nodeName.equals(key))
                 result.add((T) p);
+        }
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends PcbNode> List<T> iterateRecursive(String key) {
+        List<T> result = new ArrayList<>();
+        for (PcbNode p : nodes()) {
+            if (p.nodeName.equals(key)) {
+                result.add((T) p);
+            } else {
+                result.addAll(p.iterateRecursive(key));
+            }
         }
         return result;
     }
