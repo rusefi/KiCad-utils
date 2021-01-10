@@ -3,8 +3,7 @@ package com.rusefi.pcb;
 import com.rusefi.pcb.nodes.NetNode;
 import com.rusefi.pcb.nodes.PcbNode;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static com.rusefi.pcb.nodes.PcbNode.TOKEN_NET;
 
@@ -56,7 +55,11 @@ public class Networks {
         return value;
     }
 
-    public BoardState registerAdditionalBoard(PcbNode source) {
+    public BoardState registerAdditionalBoard(PcbNode destNode, PcbNode source) {
+        Set<String> names = new HashSet<>();
+        for (NetNode known : destNode.<NetNode>iterate(TOKEN_NET)) {
+            names.add(known.getName());
+        }
 
         BoardState result = new BoardState();
         for (NetNode net : source.<NetNode>iterate(TOKEN_NET)) {
@@ -65,8 +68,15 @@ public class Networks {
 
             String newNameInCombinedBoard = registerNetworkIfPcbSpecific(netName);
             result.netNameInLocalToNetNameInCombined.put(netName, newNameInCombinedBoard);
-            result.netIdMapping.put(netId, getId(newNameInCombinedBoard));
+            int id = getId(newNameInCombinedBoard);
+            result.netIdMapping.put(netId, id);
+
+            if (!names.contains(newNameInCombinedBoard)) {
+                System.out.println("Adding new NET declaration into combined PCB");
+                destNode.children.add(new NetNode(0, Arrays.asList("" + id, newNameInCombinedBoard)));
+            }
         }
+
 
         return result;
 

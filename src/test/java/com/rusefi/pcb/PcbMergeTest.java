@@ -22,7 +22,7 @@ public class PcbMergeTest {
         assertEquals(1036, pcb.children.size());
 
         PcbMergeTool.mergePcb(destNode, pcb, new Networks());
-        assertEquals(1541, destNode.children.size());
+        assertEquals(1616, destNode.children.size());
     }
 
     @Test
@@ -85,8 +85,8 @@ public class PcbMergeTest {
 
         assertEquals("\"CAN_VIO\"", net1.getName());
 
-        assertEquals(4, node.iterate(TOKEN_NET).size());
-        assertEquals(6, node.iterateRecursive(TOKEN_NET).size());
+        assertEquals(5, node.iterate(TOKEN_NET).size());
+        assertEquals(7, node.iterateRecursive(TOKEN_NET).size());
     }
 
     @Test
@@ -100,7 +100,7 @@ public class PcbMergeTest {
         assertEquals(1036, pcb.children.size());
 
         PcbMergeTool.mergePcb(destNode, pcb, new Networks());
-        assertEquals(5758, destNode.children.size());
+        assertEquals(5825, destNode.children.size());
     }
 
     @Test

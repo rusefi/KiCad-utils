@@ -83,9 +83,9 @@ public class PcbMergeTool {
     }
 
     static void mergePcb(PcbNode destNode, PcbNode source, Networks networks) {
-        networks.registerAdditionalBoard(destNode);
+        networks.registerAdditionalBoard(destNode, destNode);
 
-        Networks.BoardState state = networks.registerAdditionalBoard(source);
+        Networks.BoardState state = networks.registerAdditionalBoard(destNode, source);
 
         List<PcbNode> zones = source.iterate(TOKEN_ZONE);
         log("Processing  " + zones.size() + " zone(s)");
